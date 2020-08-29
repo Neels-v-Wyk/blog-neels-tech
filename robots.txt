@@ -1,1 +1,1 @@
-Sitemap: https://neels-v-wyk.github.io/blog-neels-tech/sitemap.xml
+Sitemap: https://blog.neels.tech/sitemap.xml
