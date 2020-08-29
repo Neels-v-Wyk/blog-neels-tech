@@ -10,11 +10,11 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This is where I jot down posts about tech and stuff" />
 <meta property="og:description" content="This is where I jot down posts about tech and stuff" />
-<link rel="canonical" href="https://blog.neels.tech/about/" />
-<meta property="og:url" content="https://blog.neels.tech/about/" />
+<link rel="canonical" href="https://blog.neels.tech/https:/cv.neels.tech" />
+<meta property="og:url" content="https://blog.neels.tech/https:/cv.neels.tech" />
 <meta property="og:site_name" content="Neels’s Blog" />
 <script type="application/ld+json">
-{"headline":"About Me","description":"This is where I jot down posts about tech and stuff","@type":"WebSite","url":"https://blog.neels.tech/about/","name":"Neels’s Blog","@context":"https://schema.org"}</script>
+{"description":"This is where I jot down posts about tech and stuff","@type":"WebPage","headline":"About Me","url":"https://blog.neels.tech/https:/cv.neels.tech","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.neels.tech/feed.xml" title="Neels's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>About Me | Neels’s Blog</title>
@@ -23,11 +23,11 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This is where I jot down posts about tech and stuff" />
 <meta property="og:description" content="This is where I jot down posts about tech and stuff" />
-<link rel="canonical" href="https://blog.neels.tech/about/" />
-<meta property="og:url" content="https://blog.neels.tech/about/" />
+<link rel="canonical" href="https://blog.neels.tech/https:/cv.neels.tech" />
+<meta property="og:url" content="https://blog.neels.tech/https:/cv.neels.tech" />
 <meta property="og:site_name" content="Neels’s Blog" />
 <script type="application/ld+json">
-{"headline":"About Me","description":"This is where I jot down posts about tech and stuff","@type":"WebSite","url":"https://blog.neels.tech/about/","name":"Neels’s Blog","@context":"https://schema.org"}</script>
+{"description":"This is where I jot down posts about tech and stuff","@type":"WebPage","headline":"About Me","url":"https://blog.neels.tech/https:/cv.neels.tech","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -75,7 +75,7 @@ window.onload = wrap_img;
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+        <div class="trigger"><a class="page-link" href="/https:/cv.neels.tech">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
