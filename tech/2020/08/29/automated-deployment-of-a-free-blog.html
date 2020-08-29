@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Automated Deployment of a Free Blog | Neels’s Blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Automated Deployment of a Free Blog" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions." />
+<meta property="og:description" content="An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions." />
+<link rel="canonical" href="https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html" />
+<meta property="og:url" content="https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html" />
+<meta property="og:site_name" content="Neels’s Blog" />
+<meta property="og:image" content="https://blog.neels.tech/images/chart-preview.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"headline":"Automated Deployment of a Free Blog","description":"An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions.","datePublished":"2020-08-29T00:00:00-05:00","dateModified":"2020-08-29T00:00:00-05:00","image":"https://blog.neels.tech/images/chart-preview.png","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html"},"url":"https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.neels.tech/feed.xml" title="Neels's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Automated Deployment of a Free Blog | Neels’s Blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Automated Deployment of a Free Blog" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions." />
+<meta property="og:description" content="An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions." />
+<link rel="canonical" href="https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html" />
+<meta property="og:url" content="https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html" />
+<meta property="og:site_name" content="Neels’s Blog" />
+<meta property="og:image" content="https://blog.neels.tech/images/chart-preview.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"headline":"Automated Deployment of a Free Blog","description":"An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions.","datePublished":"2020-08-29T00:00:00-05:00","dateModified":"2020-08-29T00:00:00-05:00","image":"https://blog.neels.tech/images/chart-preview.png","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html"},"url":"https://blog.neels.tech/tech/2020/08/29/automated-deployment-of-a-free-blog.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://blog.neels.tech/feed.xml" title="Neels's Blog" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Neels&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Automated Deployment of a Free Blog</h1><p class="page-description">An article detailing how my previous blog was automatically deployed to Firebase using GitHub Actions.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-08-29T00:00:00-05:00" itemprop="datePublished">
+        Aug 29, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="//categories/#tech">tech</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/Neels-v-Wyk/blog-neels-tech/tree/master/_notebooks/2020-08-29-automated-deployment-of-a-free-blog.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/Neels-v-Wyk/blog-neels-tech/master?filepath=_notebooks%2F2020-08-29-automated-deployment-of-a-free-blog.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Why-do-this?">Why do this? </a></li>
+<li class="toc-entry toc-h1"><a href="#Setting-everything-up">Setting everything up </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Firebase">Firebase </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#GitHub-Actions">GitHub Actions </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Let's-break-that-down">Let&#39;s break that down </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#In-conclusion">In conclusion </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-08-29-automated-deployment-of-a-free-blog.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Why-do-this?">
+<a class="anchor" href="#Why-do-this?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why do this?<a class="anchor-link" href="#Why-do-this?"> </a>
+</h2>
+<p>My reasons for doing this are multifold, but what it boils down to are these two simple facts:</p>
+<ul>
+<li>I am lazy</li>
+<li>I don't like spending money</li>
+</ul>
+<p>I've never had a blog so I thought I'd try my hand at one. After getting some advice from a more experienced blogger, <a href="https://cpbotha.net/">Charl</a>, I decided to have a Hugo blog (because it's easy) hosted on Firebase (because it's free). After going through the motions I realized every time I wanted to publish a new post I'd have to go through like three or four easy steps. The thing is, that's something like 25 seconds of my life I won't get back every time I make a post. So spent a few hours automating and documenting it, for maximum efficiency.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Setting-everything-up">
+<a class="anchor" href="#Setting-everything-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting everything up<a class="anchor-link" href="#Setting-everything-up"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Firebase">
+<a class="anchor" href="#Firebase" aria-hidden="true"><span class="octicon octicon-link"></span></a>Firebase<a class="anchor-link" href="#Firebase"> </a>
+</h2>
+<p>You can have up to three free projects on Google Firebase if you have a Google account, so you'll need one of those to get started. You'll also need a Hugo site ready to be deployed stored on GitHub. Once you've got those, run <code>npm install firebase-tools</code> so that you can interact with firebase, then when it's finished you can run <code>firebase login:ci</code> to get a token that you can use later. It should look something like this:</p>
+<div class="highlight"><pre><span></span><span class="go">❯ firebase login:ci</span>
+
+<span class="go">Visit this URL on this device to log in:</span>
+<span class="gp">https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&amp;scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&amp;response_type=code&amp;state=166870786&amp;redirect_uri=http%3A%2F%2Flocalhost%</span>3A9005
+
+<span class="go">Waiting for authentication...</span>
+
+<span class="go">✔  Success! Use this token to login on a CI server:</span>
+
+<span class="go">thisisyourtoken-dontmakeitpublic-aliu34jnmsdfndf-r2u3rhkwjdfn</span>
+
+<span class="go">Example: firebase deploy --token "$FIREBASE_TOKEN"</span>
+</pre></div>
+<p>Take that token and create a GitHub secret with it, I named mine <code>FIREBASE_TOKEN</code>, as will be seen when we get to the next part.</p>
+<p>In the root of your project directory run <code>firebase init</code> and do the following:</p>
+<ol>
+<li>Select the 'Hosting' option</li>
+<li>Choose the project we set up earlier</li>
+<li>Select default rules for database file</li>
+<li>Select hugo deploy directory (<code>public/</code> by default)</li>
+<li>Say 'No' to the single-app page question</li>
+</ol>
+<p>This should create a few firebase related files, then we're all set to set up the Actions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GitHub-Actions">
+<a class="anchor" href="#GitHub-Actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>GitHub Actions<a class="anchor-link" href="#GitHub-Actions"> </a>
+</h3>
+<p>GitHub Actions are pretty cool. GitLab and BitBucket have been the leading git platforms with fancy tools like testing and CI/CD built into it, but recently GitHub has released Actions to also have a stake in the game. The best thing about GitHub actions is that they're completely free (for up to 2000 build minutes per month) for public repositories.</p>
+<p>In the root of my repo, I have the directory <code>.github/workflows/</code> with one file in it, <code>deploy-hugo.yml</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build &amp; deploy</span>
+
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">push</span><span class="p">:</span>
+    <span class="nt">branches</span><span class="p">:</span> 
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">build</span><span class="p">:</span>
+
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+
+    <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@master</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get Hugo</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">peaceiris/actions-hugo@v2.2.0</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">hugo-version</span><span class="p">:</span> <span class="s">'latest'</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build static files</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">hugo --gc --minify --cleanDestinationDir</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy to Firebase</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">w9jds/firebase-action@master</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">args</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">deploy --only hosting --project blog-neels-tech</span>
+      <span class="nt">env</span><span class="p">:</span>
+        <span class="nt">FIREBASE_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Let's-break-that-down">
+<a class="anchor" href="#Let's-break-that-down" aria-hidden="true"><span class="octicon octicon-link"></span></a>Let's break that down<a class="anchor-link" href="#Let's-break-that-down"> </a>
+</h4>
+<div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build &amp; deploy</span>
+
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">push</span><span class="p">:</span>
+    <span class="nt">branches</span><span class="p">:</span> 
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">build</span><span class="p">:</span>
+
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</pre></div>
+<p>What the above does, is whenever there's a new push to master, a bunch of tasks will be run on a clean ubuntu container.</p>
+<div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@master</span>
+</pre></div>
+<p>Get the current repo's master branch using the <code>checkout</code> action.</p>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get Hugo</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">peaceiris/actions-hugo@v2.2.0</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+        <span class="nt">hugo-version</span><span class="p">:</span> <span class="s">'latest'</span>
+
+  <span class=" -Error">  </span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build static files</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">hugo --gc --minify --cleanDestinationDir</span>
+</pre></div>
+<p>Get the <a href="https://github.com/peaceiris/actions-hugo">Hugo Setup Action</a> module and then use it to create the static files for hugo to serve, and finally,</p>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy to Firebase</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">w9jds/firebase-action@master</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+        <span class="nt">args</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">deploy --only hosting --project blog-neels-tech</span>
+  <span class=" -Error">    </span><span class="nt">env</span><span class="p">:</span>
+        <span class="nt">FIREBASE_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$</span>
+</pre></div>
+<p>Deploy to Firebase with the token we generated earlier.</p>
+<h3 id="In-conclusion">
+<a class="anchor" href="#In-conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>In conclusion<a class="anchor-link" href="#In-conclusion"> </a>
+</h3>
+<p>Whenever you want to create a new post, just run <code>hugo new posts/tech-stuff.md</code> and commit/push your changes when done, the rest will be handled for you :D</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="Neels-v-Wyk/blog-neels-tech"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/tech/2020/08/29/automated-deployment-of-a-free-blog.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>This is where I jot down posts about tech and stuff</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
