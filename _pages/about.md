@@ -1,8 +1,9 @@
 ---
 #layout: page
-url: "https://cv.neels.tech"
 title: About Me
-#permalink: https://cv.neels.tech
+redirect_to:
+  - http://cv.neels.tech
+permalink: /about/
 ---
 
 This is where you put the contents of your *About* page. Like all your pages, it's in [Markdown](https://guides.github.com/features/mastering-markdown/) format.
